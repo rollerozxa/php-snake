@@ -15,6 +15,8 @@ class Game {
 
 	private $step = 0;
 
+	private $score = 0;
+
 	function __construct() {
 	}
 
@@ -42,8 +44,30 @@ class Game {
 			}
 
 			$this->snakeHead = $newSnakeHead;
-			array_pop($this->snake);
 			array_unshift($this->snake, $this->snakeHead);
+
+			if ($this->snakeHead['x'] == $this->apple['x'] && $this->snakeHead['y'] == $this->apple['y']) {
+				$this->score++;
+				while (true) {
+					$newApplePos = [
+						'x' => rand(0,26),
+						'y' => rand(0,14)
+					];
+
+					$legalPos = true;
+					foreach ($this->snake as $limb) {
+						if ($limb['x'] == $newApplePos['x'] && $limb['y'] == $newApplePos['y']) {
+							$legalPos = false;
+							break;
+						}
+					}
+
+					if ($legalPos) break;
+				}
+				$this->apple = $newApplePos;
+			} else {
+				array_pop($this->snake);
+			}
 		}
 	}
 
