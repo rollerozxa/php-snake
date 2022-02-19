@@ -23,6 +23,8 @@ while (true) {
 
 	$game->update($event);
 
+	SDL_SetWindowTitle($window, $game->getTitle());
+
 	// Clear screen
 	SDL_SetRenderDrawColor($renderer, 25, 25, 25, 0);
 	SDL_RenderClear($renderer);

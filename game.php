@@ -88,6 +88,10 @@ class Game {
 		SDL_RenderFillRect($renderer, $this->gridCell($this->apple['x'], $this->apple['y']));
 	}
 
+	function getTitle() {
+		return sprintf("pee haich pee snek - Score: %d", $this->score);
+	}
+
 	/**
 	 * Return an SDL rect of a grid cell.
 	 */
