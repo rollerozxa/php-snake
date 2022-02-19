@@ -2,18 +2,47 @@
 
 class Game {
 	private $snake = [
-		[ 'x' => 3, 'y' => 4 ],
-		[ 'x' => 4, 'y' => 4 ],
+		[ 'x' => 6, 'y' => 4 ],
 		[ 'x' => 5, 'y' => 4 ],
-		[ 'x' => 6, 'y' => 4 ]
+		[ 'x' => 4, 'y' => 4 ],
+		[ 'x' => 3, 'y' => 4 ],
 	];
+	private $snakeHead = [ 'x' => 6, 'y' => 4 ];
+
+	private $direction = 'right';
+
+	private $step = 0;
 
 	function __construct() {
-
 	}
 
 	function update(&$event) {
+		$this->step++;
 
+		if ($event->type == SDL_KEYDOWN) {
+			switch ($event->key->keysym->sym) {
+				case SDLK_LEFT:		$direction = 'left';	break;
+				case SDLK_RIGHT:	$direction = 'right';	break;
+				case SDLK_UP:		$direction = 'up';		break;
+				case SDLK_DOWN:		$direction = 'down';	break;
+			}
+
+			$this->direction = $direction;
+		}
+
+		if ($this->step % 15 == 0) {
+			$newSnakeHead = $this->snakeHead;
+			switch ($this->direction) {
+				case 'left':	$newSnakeHead['x']--; break;
+				case 'right':	$newSnakeHead['x']++; break;
+				case 'up':		$newSnakeHead['y']--; break;
+				case 'down':	$newSnakeHead['y']++; break;
+			}
+
+			$this->snakeHead = $newSnakeHead;
+			array_pop($this->snake);
+			array_unshift($this->snake, $this->snakeHead);
+		}
 	}
 
 	function draw(&$renderer) {
