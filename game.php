@@ -9,6 +9,8 @@ class Game {
 	];
 	private $snakeHead = [ 'x' => 6, 'y' => 4 ];
 
+	private $apple = [ 'x' => 20, 'y' => 10 ];
+
 	private $direction = 'right';
 
 	private $step = 0;
@@ -57,6 +59,9 @@ class Game {
 		foreach ($this->snake as $limb) {
 			SDL_RenderFillRect($renderer, $this->gridCell($limb['x'], $limb['y']));
 		}
+
+		SDL_SetRenderDrawColor($renderer, 127, 0, 0, 255);
+		SDL_RenderFillRect($renderer, $this->gridCell($this->apple['x'], $this->apple['y']));
 	}
 
 	/**
