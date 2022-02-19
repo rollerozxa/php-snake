@@ -46,7 +46,7 @@ class Game {
 			$this->snakeHead = $newSnakeHead;
 			array_unshift($this->snake, $this->snakeHead);
 
-			if ($this->snakeHead['x'] == $this->apple['x'] && $this->snakeHead['y'] == $this->apple['y']) {
+			if ($this->gridColl($this->snakeHead, $this->apple)) {
 				$this->score++;
 				while (true) {
 					$newApplePos = [
@@ -56,7 +56,7 @@ class Game {
 
 					$legalPos = true;
 					foreach ($this->snake as $limb) {
-						if ($limb['x'] == $newApplePos['x'] && $limb['y'] == $newApplePos['y']) {
+						if ($this->gridColl($limb, $newApplePos)) {
 							$legalPos = false;
 							break;
 						}
@@ -93,5 +93,12 @@ class Game {
 	 */
 	private function gridCell($x, $y) {
 		return new SDL_Rect(16 + $x * 48, 16 + $y * 48, 32, 32);
+	}
+
+	/**
+	 * Check single cell grid collision.
+	 */
+	private function gridColl($a, $b) {
+		return ($a['x'] == $b['x'] && $a['y'] == $b['y']);
 	}
 }
