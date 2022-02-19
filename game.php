@@ -34,7 +34,7 @@ class Game {
 			$this->direction = $direction;
 		}
 
-		if ($this->step % 15 == 0) {
+		if ($this->step % 10 == 0) {
 			$newSnakeHead = $this->snakeHead;
 			switch ($this->direction) {
 				case 'left':	$newSnakeHead['x']--; break;
@@ -50,8 +50,8 @@ class Game {
 				$this->score++;
 				while (true) {
 					$newApplePos = [
-						'x' => rand(0,26),
-						'y' => rand(0,14)
+						'x' => rand(0,25),
+						'y' => rand(0,13)
 					];
 
 					$legalPos = true;
