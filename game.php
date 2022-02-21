@@ -46,7 +46,7 @@ class Game {
 			$this->snakeHead = $newSnakeHead;
 			array_unshift($this->snake, $this->snakeHead);
 
-			if ($this->gridColl($this->snakeHead, $this->apple)) {
+			if (gridColl($this->snakeHead, $this->apple)) {
 				$this->score++;
 				while (true) {
 					$newApplePos = [
@@ -56,7 +56,7 @@ class Game {
 
 					$legalPos = true;
 					foreach ($this->snake as $limb) {
-						if ($this->gridColl($limb, $newApplePos)) {
+						if (gridColl($limb, $newApplePos)) {
 							$legalPos = false;
 							break;
 						}
@@ -75,34 +75,20 @@ class Game {
 		SDL_SetRenderDrawColor($renderer, 10, 10, 10, 255);
 		for ($x = 0; $x < 26; $x++) {
 			for ($y = 0; $y < 14; $y++) {
-				SDL_RenderFillRect($renderer, $this->gridCell($x, $y));
+				SDL_RenderFillRect($renderer, gridCell($x, $y));
 			}
 		}
 
 		SDL_SetRenderDrawColor($renderer, 0, 127, 0, 255);
 		foreach ($this->snake as $limb) {
-			SDL_RenderFillRect($renderer, $this->gridCell($limb['x'], $limb['y']));
+			SDL_RenderFillRect($renderer, gridCell($limb['x'], $limb['y']));
 		}
 
 		SDL_SetRenderDrawColor($renderer, 127, 0, 0, 255);
-		SDL_RenderFillRect($renderer, $this->gridCell($this->apple['x'], $this->apple['y']));
+		SDL_RenderFillRect($renderer, gridCell($this->apple['x'], $this->apple['y']));
 	}
 
 	function getTitle() {
 		return sprintf("pee haich pee snek - Score: %d", $this->score);
-	}
-
-	/**
-	 * Return an SDL rect of a grid cell.
-	 */
-	private function gridCell($x, $y) {
-		return new SDL_Rect(16 + $x * 48, 16 + $y * 48, 32, 32);
-	}
-
-	/**
-	 * Check single cell grid collision.
-	 */
-	private function gridColl($a, $b) {
-		return ($a['x'] == $b['x'] && $a['y'] == $b['y']);
 	}
 }
