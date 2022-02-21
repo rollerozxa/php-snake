@@ -1,0 +1,28 @@
+pkgname=php-snake-git
+_pkgname=php-snake
+pkgver=placeholder # will be dynamically updated by makepkg on build
+pkgrel=1
+pkgdesc="Basic snake game written in PHP using SDL"
+arch=('any')
+url="https://github.com/rollerozxa/php-snake"
+license=('MIT')
+depends=('php-sdl')
+makedepends=('git')
+source=("git+https://github.com/rollerozxa/php-snake.git"
+		"php-snake."{desktop,png,sh})
+md5sums=('SKIP' 'SKIP' 'SKIP' 'SKIP')
+
+pkgver() {
+	cd $_pkgname
+	printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+	cd $_pkgname
+	install -d "${pkgdir}/usr/share/php/snake/"
+	cp -r *.php "${pkgdir}/usr/share/php/snake/"
+
+	install -Dm755 "${srcdir}/${_pkgname}.sh" "${pkgdir}/usr/bin/${_pkgname}"
+	install -Dm644 "${srcdir}/${_pkgname}.desktop" "${pkgdir}/usr/share/applications/${_pkgname}.desktop"
+	install -Dm644 "${srcdir}/${_pkgname}.png" "${pkgdir}/usr/share/pixmaps/${_pkgname}.png"
+}
